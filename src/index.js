@@ -4,11 +4,21 @@ import Weather from "./modules/weather";
 const userInterface = UI();
 const weather = Weather();
 
-document.addEventListener("DOMContentLoaded", userInterface.loadHomePage);
+const defaultCity = "Tokyo";
 
-window.addEventListener("load", () => {
+document.addEventListener("DOMContentLoaded", () => {
+  userInterface.loadHomePage();
+  loadDefaultData();
+});
+
+window.addEventListener("load", async () => {
   onFormSubmit();
 });
+
+const loadDefaultData = async () => {
+  const defaultWeatherData = await weather.getRequiredWeatherData(defaultCity);
+  userInterface.renderFetchedData(defaultWeatherData);
+};
 
 const onFormSubmit = () => {
   const form = document.querySelector("form");
@@ -16,18 +26,19 @@ const onFormSubmit = () => {
   const cityError = document.querySelector(".error");
 
   form.addEventListener("submit", async (e) => {
-    const test = await weather.getRequiredWeatherData(city.value);
+    e.preventDefault();
 
-    if (Object.values(test).every((x) => !x)) {
+    const weatherData = await weather.getRequiredWeatherData(city.value);
+
+    if (Object.values(weatherData).every((x) => !x)) {
       cityError.classList.add("active");
       cityError.textContent = "Invalid location";
     } else {
-      console.log(test);
+      console.log(weatherData);
+      userInterface.renderFetchedData(weatherData);
 
       cityError.className = "error";
       cityError.textContent = "";
     }
-
-    e.preventDefault();
   });
 };
