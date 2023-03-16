@@ -1,0 +1,72 @@
+/* General */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+:root {
+  font-size: 10px;
+}
+
+/* Blocks */
+
+body {
+  display: flex;
+  flex-direction: column;
+
+  width: 100vw;
+  height: 100vh;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: fixed;
+
+  width: 100%;
+  height: 10%;
+
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.input-container {
+  display: flex;
+
+  padding: 3% 1%;
+
+  border-bottom: 1px solid black;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  min-height: 100%;
+  width: 100%;
+
+  background-color: rgb(161, 191, 255);
+}
+
+/* Elements */
+
+input {
+  appearance: none;
+
+  border: none;
+  background: transparent;
+
+  color: white;
+}
+
+/* Modifiers */
+
+input:focus {
+  outline: none;
+}
