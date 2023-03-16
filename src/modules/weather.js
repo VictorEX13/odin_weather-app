@@ -1,8 +1,8 @@
 const Weather = () => {
-  const getWeatherData = async (location) => {
+  const getWeatherData = async (location, temp) => {
     try {
       const requestData = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=a0b3085facdd06d98bafb42ec970107b`,
+        `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=a0b3085facdd06d98bafb42ec970107b&units=${temp}`,
         { mode: "cors" }
       );
 
@@ -14,8 +14,8 @@ const Weather = () => {
     }
   };
 
-  const getRequiredWeatherData = async (location) => {
-    const weatherData = await getWeatherData(location);
+  const getRequiredWeatherData = async (location, temp) => {
+    const weatherData = await getWeatherData(location, temp);
 
     return {
       clouds: weatherData.clouds,

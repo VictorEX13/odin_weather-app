@@ -16,26 +16,38 @@ const UI = () => {
     const header = document.createElement("header");
     const form = document.createElement("form");
 
+    const switchTemperature = document.createElement("div");
     const inputContainer = document.createElement("div");
 
+    const metricButton = document.createElement("button");
+    const imperialButton = document.createElement("button");
     const cityInput = document.createElement("input");
     const searchButton = document.createElement("button");
     const errorSpan = document.createElement("span");
 
     cityInput.id = "city";
 
+    switchTemperature.className = "switch-temperature";
     inputContainer.className = "input-container";
+
+    metricButton.className = "celsius";
+    imperialButton.className = "fahrenheit";
     searchButton.className = "search-button";
     errorSpan.className = "error";
 
+    metricButton.textContent = "metric";
+    imperialButton.textContent = "imperial";
     searchButton.textContent = "Search";
 
+    metricButton.setAttribute("type", "button");
+    imperialButton.setAttribute("type", "button");
     cityInput.setAttribute("placeholder", "Input a city name...");
     cityInput.setAttribute("autocomplete", "off");
 
+    switchTemperature.append(metricButton, imperialButton);
     inputContainer.append(cityInput, searchButton);
 
-    form.append(inputContainer, errorSpan);
+    form.append(switchTemperature, inputContainer, errorSpan);
 
     header.appendChild(form);
 
@@ -136,7 +148,7 @@ const UI = () => {
 
   // Render Weather Data
 
-  const renderFetchedData = (data) => {
+  const renderFetchedData = (data, temp) => {
     const cityName = document.querySelector(".city-name");
     const temperature = document.querySelector(".temperature");
     const weatherDescription = document.querySelector(".weather-description");
@@ -149,15 +161,22 @@ const UI = () => {
     const windDirection = document.querySelector(".wind-direction");
 
     cityName.textContent = `${data.name}`;
-    temperature.textContent = `${data.main.temp}`;
+    temperature.textContent = `${Math.round(data.main.temp)} ${
+      temp === "metric" ? "°C" : "°F"
+    }`;
     weatherDescription.textContent = `${data.weather[0].description}`;
 
     rain.textContent = `${data.clouds.all} %`;
-    feelsLike.textContent = `${data.main.feels_like}`;
+    feelsLike.textContent = `${Math.round(data.main.feels_like)} ${
+      temp === "metric" ? "°C" : "°F"
+    }`;
     humidity.textContent = `${data.main.humidity} %`;
     pressure.textContent = `${data.main.pressure} hPa`;
-    windSpeed.textContent = `${data.wind.speed} m/s`;
-    windDirection.textContent = `${data.wind.deg}°`;
+    windSpeed.textContent =
+      temp === "metric"
+        ? `${Math.round(3.6 * data.wind.speed * 10) / 10} km/h`
+        : `${Math.round(data.wind.speed * 10) / 10} mph`;
+    windDirection.textContent = `${data.wind.deg} °`;
   };
 
   return { loadHomePage, renderFetchedData };
