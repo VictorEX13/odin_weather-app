@@ -148,7 +148,7 @@ const UI = () => {
 
   // Render Weather Data
 
-  const renderFetchedData = (data, temp) => {
+  const renderFetchedData = async (data, temp) => {
     const cityName = document.querySelector(".city-name");
     const temperature = document.querySelector(".temperature");
     const weatherDescription = document.querySelector(".weather-description");
@@ -177,6 +177,27 @@ const UI = () => {
         ? `${Math.round(3.6 * data.wind.speed * 10) / 10} km/h`
         : `${Math.round(data.wind.speed * 10) / 10} mph`;
     windDirection.textContent = `${data.wind.deg} °`;
+
+    changeBackgroundGif();
+  };
+
+  // Set gif according to current time
+
+  const changeBackgroundGif = async () => {
+    try {
+      const body = document.querySelector("body");
+
+      const response = await fetch(
+        "https://api.giphy.com/v1/gifs/6W18jllvkvBSM?api_key=RsgcI9BI1Jwa6MH5xJRLuX0YMiJlA5wV",
+        { mode: "cors" }
+      );
+
+      const gifData = await response.json();
+
+      body.style.backgroundImage = `URL(${gifData.data.images.original.url})`;
+    } catch (err) {
+      console.log(err.message);
+    }
   };
 
   return { loadHomePage, renderFetchedData };

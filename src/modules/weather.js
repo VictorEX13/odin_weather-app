@@ -16,6 +16,9 @@ const Weather = () => {
 
   const getRequiredWeatherData = async (location, temp) => {
     const weatherData = await getWeatherData(location, temp);
+    const now = new Date();
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+    const actualDateTime = utc + 1000 * weatherData.timezone;
 
     return {
       clouds: weatherData.clouds,
@@ -23,6 +26,7 @@ const Weather = () => {
       main: weatherData.main,
       weather: weatherData.weather,
       wind: weatherData.wind,
+      datetime: new Date(actualDateTime),
     };
   };
 
