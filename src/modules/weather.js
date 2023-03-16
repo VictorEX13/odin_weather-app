@@ -6,7 +6,7 @@ const Weather = () => {
         { mode: "cors" }
       );
 
-      const data = requestData.json();
+      const data = await requestData.json();
 
       return data;
     } catch (err) {
@@ -14,7 +14,19 @@ const Weather = () => {
     }
   };
 
-  return { getWeatherData };
+  const getRequiredWeatherData = async (location) => {
+    const weatherData = await getWeatherData(location);
+
+    return {
+      clouds: weatherData.clouds,
+      name: weatherData.name,
+      main: weatherData.main,
+      weather: weatherData.weather,
+      wind: weatherData.wind,
+    };
+  };
+
+  return { getRequiredWeatherData };
 };
 
 export default Weather;
