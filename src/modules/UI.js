@@ -29,6 +29,7 @@ const UI = () => {
     searchButton.textContent = "Search";
 
     cityInput.setAttribute("placeholder", "Input a city name...");
+    cityInput.setAttribute("autocomplete", "off");
 
     inputContainer.append(cityInput, searchButton);
 

@@ -38,6 +38,7 @@ header {
 .input-container {
   display: flex;
 
+  width: 100%;
   padding: 3% 1%;
 
   border-bottom: 1px solid black;
@@ -69,4 +70,16 @@ input {
 
 input:focus {
   outline: none;
+}
+
+.error {
+  display: block;
+
+  height: 1.3rem;
+
+  font-size: 0.8rem;
+}
+
+.error.active {
+  padding: 0.3rem;
 }
