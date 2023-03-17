@@ -18,6 +18,8 @@ body {
   display: flex;
   flex-direction: column;
 
+  background-size: cover;
+
   width: 100vw;
   height: 100vh;
 }
@@ -52,8 +54,6 @@ main {
 
   min-height: 100%;
   width: 100%;
-
-  background-color: rgb(215, 228, 255);
 }
 
 .weather-info {
@@ -70,8 +70,8 @@ main {
 
 .weather-details {
   display: grid;
-  grid-template-columns: repeat(2,1fr);
-  grid-template-rows: repeat(3,1fr);
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
 
   gap: 5%;
 
@@ -120,4 +120,14 @@ input:focus {
 
 .error.active {
   padding: 0.3rem;
+}
+
+body.light * {
+  color: white;
+  border-color: white;
+}
+
+body.dark * {
+  color: black;
+  border-color: black;
 }

@@ -1,4 +1,5 @@
 import "../styles/main.css";
+import { format } from "date-fns";
 
 const UI = () => {
   const loadHomePage = () => {
@@ -69,10 +70,14 @@ const UI = () => {
     // Info
 
     const cityName = document.createElement("p");
+    const cityDate = document.createElement("p");
+    const cityTime = document.createElement("p");
     const temperature = document.createElement("p");
     const weatherDescription = document.createElement("p");
 
     cityName.className = "city-name";
+    cityDate.className = "city-date";
+    cityTime.className = "city-time";
     temperature.className = "temperature";
     weatherDescription.className = "weather-description";
 
@@ -130,7 +135,13 @@ const UI = () => {
 
     // -------------------------
 
-    weatherInfo.append(cityName, temperature, weatherDescription);
+    weatherInfo.append(
+      cityName,
+      cityDate,
+      cityTime,
+      temperature,
+      weatherDescription
+    );
 
     weatherDetails.append(
       rainArticle,
@@ -150,6 +161,8 @@ const UI = () => {
 
   const renderFetchedData = async (data, temp) => {
     const cityName = document.querySelector(".city-name");
+    const cityDate = document.querySelector(".city-date");
+    const cityTime = document.querySelector(".city-time");
     const temperature = document.querySelector(".temperature");
     const weatherDescription = document.querySelector(".weather-description");
 
@@ -160,7 +173,9 @@ const UI = () => {
     const windSpeed = document.querySelector(".wind-speed");
     const windDirection = document.querySelector(".wind-direction");
 
-    cityName.textContent = `${data.name}`;
+    cityName.textContent = `${data.name},`;
+    cityDate.textContent = format(data.datetime.current, "EEEE, do MMM `yy");
+    cityTime.textContent = format(data.datetime.current, "h:mm a");
     temperature.textContent = `${Math.round(data.main.temp)} ${
       temp === "metric" ? "°C" : "°F"
     }`;
@@ -178,23 +193,41 @@ const UI = () => {
         : `${Math.round(data.wind.speed * 10) / 10} mph`;
     windDirection.textContent = `${data.wind.deg} °`;
 
-    changeBackgroundGif();
+    const timeStatus =
+      data.datetime.current > data.datetime.sunrise &&
+      data.datetime.current < data.datetime.sunset
+        ? 1
+        : 2;
+
+    changeBackgroundGif(timeStatus);
   };
 
   // Set gif according to current time
 
-  const changeBackgroundGif = async () => {
+  const changeBackgroundGif = async (timeStatus) => {
     try {
       const body = document.querySelector("body");
+      let response;
 
-      const response = await fetch(
-        "https://api.giphy.com/v1/gifs/6W18jllvkvBSM?api_key=RsgcI9BI1Jwa6MH5xJRLuX0YMiJlA5wV",
-        { mode: "cors" }
-      );
+      if (timeStatus === 1) {
+        response = await fetch(
+          "https://api.giphy.com/v1/gifs/1TpGKApbHmkZa?api_key=RsgcI9BI1Jwa6MH5xJRLuX0YMiJlA5wV",
+          { mode: "cors" }
+        );
+
+        body.className = "dark";
+      } else {
+        response = await fetch(
+          "https://api.giphy.com/v1/gifs/XgtJCYMbPvMe4?api_key=RsgcI9BI1Jwa6MH5xJRLuX0YMiJlA5wV",
+          { mode: "cors" }
+        );
+
+        body.className = "light";
+      }
 
       const gifData = await response.json();
 
-      body.style.backgroundImage = `URL(${gifData.data.images.original.url})`;
+      body.style.backgroundImage = `url(${gifData.data.images.original.url})`;
     } catch (err) {
       console.log(err.message);
     }

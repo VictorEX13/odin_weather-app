@@ -66,11 +66,10 @@ const fetchWeatherData = async () => {
     selectedMode
   );
 
-  if (Object.values(weatherData).every((x) => !x)) {
+  if (!weatherData) {
     cityError.className = "error active";
     cityError.textContent = "Invalid location";
   } else {
-    console.log(weatherData);
     userInterface.renderFetchedData(weatherData, selectedMode);
 
     cityError.className = "error";
