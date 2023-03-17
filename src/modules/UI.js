@@ -233,7 +233,40 @@ const UI = () => {
     }
   };
 
-  return { loadHomePage, renderFetchedData };
+  const loading = async () => {
+    try {
+      const body = document.querySelector("body");
+      const loadingcontainer = document.createElement("div");
+      const loadingImage = document.createElement("div");
+
+      loadingcontainer.className = "loading";
+      loadingImage.className = "loading-image";
+
+      const response = await fetch(
+        "https://api.giphy.com/v1/gifs/3AMRa6DRUhMli?api_key=RsgcI9BI1Jwa6MH5xJRLuX0YMiJlA5wV",
+        { mode: "cors" }
+      );
+
+      const gifData = await response.json();
+
+      loadingImage.style.backgroundImage = `url(${gifData.data.images.original.url})`;
+      loadingcontainer.appendChild(loadingImage);
+      body.appendChild(loadingcontainer);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  const removeLoading = () => {
+    const body = document.querySelector("body");
+    const loadingcontainer = document.querySelector(".loading");
+
+    if (loadingcontainer) {
+      body.removeChild(loadingcontainer);
+    }
+  };
+
+  return { loadHomePage, renderFetchedData, loading, removeLoading };
 };
 
 export default UI;

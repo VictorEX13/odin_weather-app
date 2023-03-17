@@ -64,21 +64,30 @@ const onFormSubmit = () => {
 };
 
 const fetchWeatherData = async () => {
-  const city = document.querySelector("#city");
-  const cityError = document.querySelector(".error");
+  try {
+    await userInterface.loading();
 
-  const weatherData = await weather.getRequiredWeatherData(
-    city.value,
-    selectedMode
-  );
+    const city = document.querySelector("#city");
+    const cityError = document.querySelector(".error");
 
-  if (!weatherData) {
-    cityError.className = "error active";
-    cityError.textContent = "Invalid location";
-  } else {
-    userInterface.renderFetchedData(weatherData, selectedMode);
+    const weatherData = await weather.getRequiredWeatherData(
+      city.value,
+      selectedMode
+    );
 
-    cityError.className = "error";
-    cityError.textContent = "";
+    if (!weatherData) {
+      cityError.className = "error active";
+      cityError.textContent = "Invalid location";
+    } else {
+      userInterface.renderFetchedData(weatherData, selectedMode);
+
+      cityError.className = "error";
+      cityError.textContent = "";
+    }
+
+    userInterface.removeLoading();
+  } catch (err) {
+    userInterface.removeLoading();
+    console.log(err);
   }
 };
