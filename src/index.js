@@ -28,22 +28,28 @@ const loadDefaultData = async () => {
 };
 
 const switchToMetric = () => {
-  const metricButton = document.querySelector(".celsius");
+  const metricButton = document.querySelector(".metric");
+  const imperialButton = document.querySelector(".imperial");
 
   metricButton.addEventListener("click", async () => {
     selectedMode = "metric";
+    imperialButton.className = "imperial";
+    metricButton.className = "metric active-mode";
 
-    fetchWeatherData();
+    await fetchWeatherData();
   });
 };
 
 const switchToImperial = () => {
-  const imperialButton = document.querySelector(".fahrenheit");
+  const imperialButton = document.querySelector(".imperial");
+  const metricButton = document.querySelector(".metric");
 
   imperialButton.addEventListener("click", async () => {
     selectedMode = "imperial";
+    metricButton.className = "metric";
+    imperialButton.className = "imperial active-mode";
 
-    fetchWeatherData();
+    await fetchWeatherData();
   });
 };
 
@@ -53,7 +59,7 @@ const onFormSubmit = () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    fetchWeatherData();
+    await fetchWeatherData();
   });
 };
 

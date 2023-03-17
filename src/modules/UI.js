@@ -17,7 +17,7 @@ const UI = () => {
     const header = document.createElement("header");
     const form = document.createElement("form");
 
-    const switchTemperature = document.createElement("div");
+    const switchMode = document.createElement("div");
     const inputContainer = document.createElement("div");
 
     const metricButton = document.createElement("button");
@@ -28,16 +28,16 @@ const UI = () => {
 
     cityInput.id = "city";
 
-    switchTemperature.className = "switch-temperature";
+    switchMode.className = "switch-mode";
     inputContainer.className = "input-container";
 
-    metricButton.className = "celsius";
-    imperialButton.className = "fahrenheit";
+    metricButton.className = "metric active-mode";
+    imperialButton.className = "imperial";
     searchButton.className = "search-button";
     errorSpan.className = "error";
 
-    metricButton.textContent = "metric";
-    imperialButton.textContent = "imperial";
+    metricButton.textContent = "Metric";
+    imperialButton.textContent = "Imperial";
     searchButton.textContent = "Search";
 
     metricButton.setAttribute("type", "button");
@@ -45,10 +45,10 @@ const UI = () => {
     cityInput.setAttribute("placeholder", "Input a city name...");
     cityInput.setAttribute("autocomplete", "off");
 
-    switchTemperature.append(metricButton, imperialButton);
+    switchMode.append(metricButton, imperialButton);
     inputContainer.append(cityInput, searchButton);
 
-    form.append(switchTemperature, inputContainer, errorSpan);
+    form.append(switchMode, inputContainer, errorSpan);
 
     header.appendChild(form);
 
@@ -199,7 +199,7 @@ const UI = () => {
         ? 1
         : 2;
 
-    changeBackgroundGif(timeStatus);
+    await changeBackgroundGif(timeStatus);
   };
 
   // Set gif according to current time
